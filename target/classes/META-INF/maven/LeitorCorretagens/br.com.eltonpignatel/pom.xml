@@ -3,4 +3,18 @@
   <groupId>LeitorCorretagens</groupId>
   <artifactId>br.com.eltonpignatel</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+<dependency>
+  <groupId>org.apache.pdfbox</groupId>
+  <artifactId>pdfbox</artifactId>
+  <version>2.0.6</version>
+</dependency>
+<dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk16</artifactId>
+                <version>1.46</version>
+            </dependency>
+
+  </dependencies>
+  
 </project>
