@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class NotaDeCorretagem {
+	
 	private Integer numeroCorretagem;
 	private String corretora;
 	private Date dataPregao;
@@ -21,6 +22,11 @@ public class NotaDeCorretagem {
 	private Double valorIRRF;
 	private Double outros;
 	private List<NotaCorretagemLancto> lanctos;
+	
+	public NotaDeCorretagem() {
+		super();
+	}
+	
 	public Integer getNumeroCorretagem() {
 		return numeroCorretagem;
 	}
