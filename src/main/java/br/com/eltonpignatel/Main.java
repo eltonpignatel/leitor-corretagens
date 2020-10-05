@@ -6,15 +6,13 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
 import br.com.eltonpignatel.dao.NotaCorretagemDAO;
 import br.com.eltonpignatel.model.NotaCorretagemLancto;
-import br.com.eltonpignatel.model.NotaDeCorretagem;
+import br.com.eltonpignatel.model.NotaCorretagem;
 
 public class Main {
 
@@ -27,9 +25,9 @@ public class Main {
 		
 		int posInicialResumoFinanceiro = 0;
 		int posInicialCustosOperacionais = 0;
-		int posInicialResumoDosNegocios = 0;
+		int posInicialResumoDosNegocios = 0; //Variável não utilizada mas preenchida no layout para uso futuro
 		
-		NotaDeCorretagem notaDeCorretagem = new NotaDeCorretagem();
+		NotaCorretagem notaDeCorretagem = new NotaCorretagem();
 		NotaCorretagemLancto notaDeCorretagemLancto; 
 		List <NotaCorretagemLancto> notaDeCorretagemLanctoList;
 		
@@ -37,7 +35,9 @@ public class Main {
 		
         try {
         	
-        	PDDocument document = PDDocument.load(new File("C:\\Users\\elton\\Documents\\Repositorios\\LeitorCorretagens\\notas\\nota_grande.pdf"),"077");
+        	PDDocument document = PDDocument.load(new File("C:\\Users\\elton\\Documents\\Repositorios\\LeitorCorretagens\\notas\\nota.pdf"),"077");
+        	//PDDocument document = PDDocument.load(new File("C:\\Users\\elton\\Documents\\Repositorios\\LeitorCorretagens\\notas\\nota2.pdf"),"077");
+        	//PDDocument document = PDDocument.load(new File("C:\\Users\\elton\\Documents\\Repositorios\\LeitorCorretagens\\notas\\nota_grande.pdf"),"077");
         	
         	document.setAllSecurityToBeRemoved(true);
         	
@@ -47,10 +47,10 @@ public class Main {
 			stripper = new PDFTextStripper();
 			stripper.setSortByPosition(true);
 			
-            PDPage pageNumber = document.getPage(7);
+            PDPage pageNumber;
             
-			for (int p = 8; p <= 8/*document.getNumberOfPages()*/; ++p) {
-				
+			for (int p = 1; p <= document.getNumberOfPages(); ++p) {
+				pageNumber = document.getPage(p-1);
                 stripper.setStartPage(p);
                 stripper.setEndPage(p);
 
@@ -99,10 +99,12 @@ public class Main {
                 	stripperArea = new PDFTextStripperByArea();
         			stripperArea.setSortByPosition( true );
         			
-        			rect = new Rectangle(155, 245+(contLanctos*10), 140, 12 );//Posição do nome do ativo
+        			//Posição do nome do ativo
+        			rect = new Rectangle(155, 245+(contLanctos*10), 140, 12 );
                     stripperArea.addRegion( "lancamentoAtivo", rect );
                     
-                    rect = new Rectangle( 320, 245+(contLanctos*10), 540, 12 );//Posição dos valores
+                    //Posição dos valores
+                    rect = new Rectangle( 320, 245+(contLanctos*10), 540, 12 );
                     stripperArea.addRegion( "lancamentoValores", rect );
                     stripperArea.extractRegions( pageNumber );
                     
@@ -117,6 +119,7 @@ public class Main {
                     notaDeCorretagemLancto.setValorOperacaoAjuste( Double.parseDouble( stripperArea.getTextForRegion( "lancamentoValores" ).replace(System.lineSeparator(), "").split(" ")[2].replace(".", "").replace(",", ".") ) );
                     notaDeCorretagemLancto.setD_C( stripperArea.getTextForRegion( "lancamentoValores" ).replace(System.lineSeparator(), "").split(" ")[3] );
                     notaDeCorretagemLancto.setFolha(Integer.parseInt(linhas[2].split(" ")[1]));
+                    //notaDeCorretagemLancto.setFolha(2);
                     notaDeCorretagemLanctoList.add(notaDeCorretagemLancto);
                     
                 }
@@ -162,14 +165,16 @@ public class Main {
         } catch(Exception e) {
         	e.printStackTrace();
         }
-      
-      System.out.println(UUID.randomUUID().toString());   
         
-      System.out.println(notaDeCorretagem.toString());
-      
-      new NotaCorretagemDAO().gravarJson(notaDeCorretagem);
-      System.out.println(new NotaCorretagemDAO().lerJson(notaDeCorretagem).toString());
+		new NotaCorretagemDAO().gravarJson(notaDeCorretagem);
 		
+		List <NotaCorretagem> listaNotasCorretagens = new ArrayList<NotaCorretagem>();
+		listaNotasCorretagens =  new NotaCorretagemDAO().lerTodos(NotaCorretagem.class);
+		
+		for (NotaCorretagem nota : listaNotasCorretagens) {
+			System.out.println(nota.toString());
+		}
+	
 	}
 
 }

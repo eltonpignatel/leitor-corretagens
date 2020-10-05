@@ -1,5 +1,7 @@
 package br.com.eltonpignatel.model;
 
+import br.com.eltonpignatel.exceptions.EspecificacaoSemSufixoException;
+
 public class NotaCorretagemLancto {
 	private String negociacao;
 	private String C_V;
@@ -10,6 +12,7 @@ public class NotaCorretagemLancto {
 	private Double valorOperacaoAjuste;
 	private String D_C;
 	private Integer folha;
+	private Integer sufixoTicker;
 	
 	public String getNegociacao() {
 		return negociacao;
@@ -34,6 +37,13 @@ public class NotaCorretagemLancto {
 	}
 	public void setEspecificacaoTitulo(String especificacaoTitulo) {
 		this.especificacaoTitulo = especificacaoTitulo;
+		
+		try {
+			this.sufixoTicker = extrairSufixoTitulo(especificacaoTitulo);
+		} catch (Exception e) {
+			
+		}
+		
 	}
 	public Integer getQuantidade() {
 		return quantidade;
@@ -65,17 +75,31 @@ public class NotaCorretagemLancto {
 	public void setFolha(Integer folha) {
 		this.folha = folha;
 	}
+	public Integer getSufixoTicker() {
+		return sufixoTicker;
+	}
+	
+	private Integer extrairSufixoTitulo (String especificacaoTitulo) throws EspecificacaoSemSufixoException {
+		
+		if (especificacaoTitulo.endsWith("ON NM")) {
+			return 3;			
+		} else if (especificacaoTitulo.endsWith("PN N1")) {
+			return 4;
+		} else if (especificacaoTitulo.endsWith("UNT N2")) {
+			return 11;
+		} else {
+			throw new EspecificacaoSemSufixoException();
+		}
+		
+	}
+	
 	
 	@Override
 	public String toString() {
 		return "NotaCorretagemLancto [negociacao=" + negociacao + ", C_V=" + C_V + ", tipoMercado=" + tipoMercado
 				+ ", especificacaoTitulo=" + especificacaoTitulo + ", quantidade=" + quantidade + ", precoAjuste="
 				+ precoAjuste + ", valorOperacaoAjuste=" + valorOperacaoAjuste + ", D_C=" + D_C + ", folha=" + folha
-				+ ", getNegociacao()=" + getNegociacao() + ", getC_V()=" + getC_V() + ", getTipoMercado()="
-				+ getTipoMercado() + ", getEspecificacaoTitulo()=" + getEspecificacaoTitulo() + ", getQuantidade()="
-				+ getQuantidade() + ", getPrecoAjuste()=" + getPrecoAjuste() + ", getValorOperacaoAjuste()="
-				+ getValorOperacaoAjuste() + ", getD_C()=" + getD_C() + ", getFolha()=" + getFolha() + ", getClass()="
-				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", sufixoTicker=" + sufixoTicker + "]";
 	}
 	
 }

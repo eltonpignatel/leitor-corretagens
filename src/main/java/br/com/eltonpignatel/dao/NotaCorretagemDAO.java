@@ -1,27 +1,56 @@
 package br.com.eltonpignatel.dao;
 
 import java.io.File;
+import java.util.List;
 import br.com.eltonpignatel.bd.Database;
 import br.com.eltonpignatel.bd.IDatabase;
-import br.com.eltonpignatel.model.NotaDeCorretagem;
+import br.com.eltonpignatel.model.NotaCorretagemLancto;
+import br.com.eltonpignatel.model.NotaCorretagem;
 
 public class NotaCorretagemDAO extends Database implements IDatabase {
 	
-	public NotaDeCorretagem lerJson(NotaDeCorretagem notaDeCorretagem) {
-		// TODO Auto-generated method stub
-		return (NotaDeCorretagem) super.lerJson(notaDeCorretagem, obterID(notaDeCorretagem));
+	public NotaCorretagem lerJson(NotaCorretagem notaCorretagem) {
+
+		return (NotaCorretagem) super.lerJson(notaCorretagem.getClass(), obterID(notaCorretagem));
 	}
 	
-	public void gravarJson(NotaDeCorretagem notaDeCorretagem) {
-		// TODO Auto-generated method stub
-		super.gravarJson(notaDeCorretagem, obterID(notaDeCorretagem));
+	public void gravarJson(NotaCorretagem notaCorretagem) {
+		
+		Boolean jaTemFolha = false;
+		
+		NotaCorretagem notaCorretagemBD = new NotaCorretagem();
+		notaCorretagemBD = lerJson(notaCorretagem); 
+		
+		if ( notaCorretagemBD != null ) {
+			
+			for (NotaCorretagemLancto lancto : notaCorretagemBD.getLanctos()) {
+				if ( lancto.getFolha() == notaCorretagem.getLanctos().get(0).getFolha() ) {
+					jaTemFolha = true;
+				}
+			}
+			
+			if (!jaTemFolha) {
+				for (NotaCorretagemLancto lancto : notaCorretagem.getLanctos()) {
+					notaCorretagemBD.getLanctos().add(lancto);
+				}
+			}
+			
+		} else {
+			notaCorretagemBD  = notaCorretagem;
+		}
+		
+		super.gravarJson(notaCorretagemBD, obterID(notaCorretagemBD));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public  List<NotaCorretagem> lerTodos(Class<?> classe) {
+		return (List<NotaCorretagem>) super.lerTodos(classe);
 	}
 
 	@Override
 	public String obterID(Object objeto) {
-		// TODO Auto-generated method stub
-		return ((NotaDeCorretagem) objeto).getCorretora().toString() + File.pathSeparatorChar  +
-				((NotaDeCorretagem) objeto).getNumeroCorretagem().toString();
+		return ((NotaCorretagem) objeto).getCorretora().toString() + File.pathSeparatorChar  +
+				((NotaCorretagem) objeto).getNumeroCorretagem().toString();
 	}
 
 }

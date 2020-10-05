@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 
@@ -30,18 +32,35 @@ public class Database {
 		
 	}
 	
-	protected Object lerJson(Object objeto, String id) {
+	protected List<?> lerTodos(Class<?> classe) {
+		
+		File diretorioArquivos = new File("database" + File.separator + classe.getSimpleName() );
+		
+		File[] arquivos = diretorioArquivos.listFiles();
+		
+		List <Object> registros = new ArrayList<Object>();
+		
+		for (File arquivo : arquivos ) {
+			
+			registros.add(lerJson(classe, arquivo.getName().split("\\.")[0]));
+		
+		}
+		
+		return registros;
+	}
+	
+	protected Object lerJson(Class<?> classe, String id) {
 		
 		Object objetoPreenchido = null;
 		
 	    try {
 	    	
 	    	String json = new String ( Files.readAllBytes( Paths.get("database" + File.separatorChar + 
-					objeto.getClass().getSimpleName() + File.separatorChar + 
+	    			classe.getSimpleName() + File.separatorChar + 
 					id + ".json") ) );
 	    	
 	    	ObjectMapper objectMapper = new ObjectMapper();
-	    	objetoPreenchido = objectMapper.readValue( json, objeto.getClass() );
+	    	objetoPreenchido = objectMapper.readValue( json, classe );
 	    	
 	    } catch (MismatchedInputException mie) {
 	    	return null;

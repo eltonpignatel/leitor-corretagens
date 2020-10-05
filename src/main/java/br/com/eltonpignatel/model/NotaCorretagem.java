@@ -3,7 +3,7 @@ package br.com.eltonpignatel.model;
 import java.util.Date;
 import java.util.List;
 
-public class NotaDeCorretagem {
+public class NotaCorretagem {
 	
 	private Integer numeroCorretagem;
 	private String corretora;
@@ -23,7 +23,7 @@ public class NotaDeCorretagem {
 	private Double outros;
 	private List<NotaCorretagemLancto> lanctos;
 	
-	public NotaDeCorretagem() {
+	public NotaCorretagem() {
 		super();
 	}
 	
