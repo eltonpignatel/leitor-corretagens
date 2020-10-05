@@ -82,17 +82,24 @@ public class NotaCorretagemLancto {
 	private Integer extrairSufixoTitulo (String especificacaoTitulo) throws EspecificacaoSemSufixoException {
 		
 		if (especificacaoTitulo.endsWith("ON NM")) {
-			return 3;			
+			return 3;
 		} else if (especificacaoTitulo.endsWith("PN N1")) {
 			return 4;
 		} else if (especificacaoTitulo.endsWith("UNT N2")) {
 			return 11;
+		} else if (especificacaoTitulo.endsWith("ON NM")) {
+			return 3;
+		} else if (especificacaoTitulo.endsWith("ON N1")) {
+			return 3;
+		} else if (especificacaoTitulo.endsWith("PN")) {
+			return 4;
+		} else if (especificacaoTitulo.endsWith("ON ES NM")) {
+			return 3;
 		} else {
 			throw new EspecificacaoSemSufixoException();
 		}
 		
 	}
-	
 	
 	@Override
 	public String toString() {
