@@ -1,6 +1,7 @@
-/target/
+target/
 /database
 /notas/
 /out/
 .classpath
 .project
+.settings
