@@ -42,6 +42,12 @@ public class NotaCorretagemDAO extends Database implements IDatabase {
 		super.gravarJson(notaCorretagemBD, obterID(notaCorretagemBD));
 	}
 	
+	public void apagarJson(NotaCorretagem notaCorretagemo) {
+		
+		super.apagarJson(notaCorretagemo, obterID(notaCorretagemo));
+		
+	}
+	
 	@SuppressWarnings("unchecked")
 	public  List<NotaCorretagem> lerTodos(Class<?> classe) {
 		return (List<NotaCorretagem>) super.lerTodos(classe);

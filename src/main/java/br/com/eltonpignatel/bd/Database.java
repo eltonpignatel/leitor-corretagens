@@ -32,6 +32,24 @@ public class Database {
 		
 	}
 	
+	protected void apagarJson(Object objeto, String id) {
+		
+		try {
+
+			File arquivoJson = new File("database" + File.separatorChar + 
+					objeto.getClass().getSimpleName() + File.separatorChar + 
+					id + ".json");
+			
+			if (arquivoJson.exists()) {
+				arquivoJson.delete();
+			}
+			
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		
+	}
+	
 	protected List<?> lerTodos(Class<?> classe) {
 		
 		File diretorioArquivos = new File("database" + File.separator + classe.getSimpleName() );
