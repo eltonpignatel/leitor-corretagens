@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.DecimalFormat;
 import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -62,26 +63,26 @@ public class Leitor {
 			printer.printRecord( notaCorretagem.getNumeroCorretagem(),
 								 notaCorretagem.getCorretora(),
 								 Formatos.formatar(notaCorretagem.getDataPregao(), Fmt.DDMMYYYY_BARRAS),
-								 notaCorretagem.getValorLiquidoOperacoes(),
-								 notaCorretagem.getTaxaLiquidacao(),
-								 notaCorretagem.getTaxaRegistro(),
-								 notaCorretagem.getTaxaTermoOpcoes(),
-								 notaCorretagem.getTaxaANA(),
-								 notaCorretagem.getEmolumentos(),
-								 notaCorretagem.getTaxaOperacional(),
-								 notaCorretagem.getExecucao(),
-								 notaCorretagem.getTaxaCustodia(),
-								 notaCorretagem.getImpostos(),
-								 notaCorretagem.getBaseIRRF(),
-								 notaCorretagem.getValorIRRF(),
-								 notaCorretagem.getOutros(),
+								 notaCorretagem.getValorLiquidoOperacoes() == null ? null : new DecimalFormat("#.0#").format(notaCorretagem.getValorLiquidoOperacoes()),
+								 notaCorretagem.getTaxaLiquidacao() == null ? null : new DecimalFormat("#.0#").format(notaCorretagem.getTaxaLiquidacao()),
+								 notaCorretagem.getTaxaRegistro() == null ? null : new DecimalFormat("#.0#").format(notaCorretagem.getTaxaRegistro()),
+								 notaCorretagem.getTaxaTermoOpcoes() == null ? null : new DecimalFormat("#.0#").format(notaCorretagem.getTaxaTermoOpcoes()),
+								 notaCorretagem.getTaxaANA() == null ? null : new DecimalFormat("#.0#").format(notaCorretagem.getTaxaANA()),
+								 notaCorretagem.getEmolumentos() == null ? null : new DecimalFormat("#.0#").format(notaCorretagem.getEmolumentos()),
+								 notaCorretagem.getTaxaOperacional() == null ? null : new DecimalFormat("#.0#").format(notaCorretagem.getTaxaOperacional()),
+								 notaCorretagem.getExecucao() == null ? null : new DecimalFormat("#.0#").format(notaCorretagem.getExecucao()),
+								 notaCorretagem.getTaxaCustodia() == null ? null : new DecimalFormat("#.0#").format(notaCorretagem.getTaxaCustodia()),
+								 notaCorretagem.getImpostos() == null ? null : new DecimalFormat("#.0#").format(notaCorretagem.getImpostos()),
+								 notaCorretagem.getBaseIRRF() == null ? null : new DecimalFormat("#.0#").format(notaCorretagem.getBaseIRRF()),
+								 notaCorretagem.getValorIRRF() == null ? null : new DecimalFormat("#.0#").format(notaCorretagem.getValorIRRF()),
+								 notaCorretagem.getOutros() == null ? null : new DecimalFormat("#.0#").format(notaCorretagem.getOutros()),
 								 notaCorretagemLancto.getNegociacao(),
 								 notaCorretagemLancto.getC_V(),
 								 notaCorretagemLancto.getTipoMercado(),
 								 notaCorretagemLancto.getEspecificacaoTitulo(),
 								 notaCorretagemLancto.getQuantidade(),
-								 notaCorretagemLancto.getPrecoAjuste(),
-								 notaCorretagemLancto.getValorOperacaoAjuste(),
+								 notaCorretagemLancto.getPrecoAjuste()== null ? null : new DecimalFormat("#.0#").format(notaCorretagemLancto.getPrecoAjuste()),
+								 notaCorretagemLancto.getValorOperacaoAjuste()== null ? null : new DecimalFormat("#.0#").format(notaCorretagemLancto.getValorOperacaoAjuste()),
 								 notaCorretagemLancto.getD_C(),
 								 notaCorretagemLancto.getFolha() );
 		}

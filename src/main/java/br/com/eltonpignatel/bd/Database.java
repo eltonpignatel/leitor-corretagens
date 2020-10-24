@@ -52,6 +52,10 @@ public class Database {
 	
 	protected List<?> lerTodos(Class<?> classe) {
 		
+		criarPastaDatabase();
+		
+		criarPastaObjeto(classe.getSimpleName());
+		
 		File diretorioArquivos = new File("database" + File.separator + classe.getSimpleName() );
 		
 		File[] arquivos = diretorioArquivos.listFiles();
