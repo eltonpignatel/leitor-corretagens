@@ -190,7 +190,7 @@ public class LeitorClear {
 	        }
 
 			document.close();
-		} catch (IOException | ParseException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			document.close();
 			throw e;

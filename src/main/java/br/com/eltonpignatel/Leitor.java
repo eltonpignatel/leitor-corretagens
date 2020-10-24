@@ -3,6 +3,7 @@ package br.com.eltonpignatel;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -13,19 +14,24 @@ import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.QuoteMode;
 import br.com.eltonpignatel.model.NotaCorretagem;
 import br.com.eltonpignatel.model.NotaCorretagemLancto;
+import br.com.eltonpignatel.util.Arquivos;
 import br.com.eltonpignatel.util.Fmt;
 import br.com.eltonpignatel.util.Formatos;
 
 public class Leitor {
 	
-	static String diretorioPendentes = "notas" + File.separator + "pendentes" ;
-	static String diretorioClear = "notas" + File.separator + "Clear";
-	static String diretorioProcessados = "notas" + File.separator + "Processados";
-	static String diretorioErros = "notas" + File.separator + "Erros";
-	
+	static String diretorioBaseExecucao = Arquivos.urlExecucao();
+	static String diretorioNotas = diretorioBaseExecucao + "notas" + File.separator;
+	static String diretorioPendentes = diretorioNotas + "Pendentes" ;
+	static String diretorioClear = diretorioNotas + "Clear";
+	static String diretorioProcessados = diretorioNotas + "Processados";
+	static String diretorioErros = diretorioNotas + "Erros";
+	static String diretorioCSV = diretorioBaseExecucao +  "out" + File.separator ;
+	 
 	public static void processarArquivosPendentes() throws IOException {
 		
 		File diretorioArquivos = new File(diretorioPendentes);
+		
 		File[] arquivos  = diretorioArquivos.listFiles();
 		
 		for (File arquivo : arquivos) {
@@ -41,7 +47,7 @@ public class Leitor {
 							 "Tipo Mercado", "Especificacao Titulo", "Quantidade", "PrecoAjuste", "ValorOperacaoAjuste",
 							 "D_C", "Folha" };
 		
-	    FileWriter out = new FileWriter("out\\corretagens.csv");
+	    FileWriter out = new FileWriter(diretorioCSV + "corretagens.csv");
 	    
 	    CSVPrinter printer = new CSVPrinter(out, CSVFormat.newFormat(';')
 											    		.withQuote('"')
@@ -86,5 +92,16 @@ public class Leitor {
 								 notaCorretagemLancto.getD_C(),
 								 notaCorretagemLancto.getFolha() );
 		}
+	}
+	
+	public static void criaEstruturaDiretorios() {
+		
+		Arquivos.criaDiretorioSeNaoExiste(diretorioCSV);
+		Arquivos.criaDiretorioSeNaoExiste(diretorioNotas);
+		Arquivos.criaDiretorioSeNaoExiste(diretorioPendentes);
+		Arquivos.criaDiretorioSeNaoExiste(diretorioClear);
+		Arquivos.criaDiretorioSeNaoExiste(diretorioProcessados);
+		Arquivos.criaDiretorioSeNaoExiste(diretorioErros);
+		
 	}
 }

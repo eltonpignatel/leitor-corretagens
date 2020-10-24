@@ -53,7 +53,6 @@ public class NotaCorretagemDAO extends Database implements IDatabase {
 		return (List<NotaCorretagem>) super.lerTodos(classe);
 	}
 
-	@Override
 	public String obterID(Object objeto) {
 		return ((NotaCorretagem) objeto).getCorretora().toString() + File.pathSeparatorChar  +
 				((NotaCorretagem) objeto).getNumeroCorretagem().toString();
