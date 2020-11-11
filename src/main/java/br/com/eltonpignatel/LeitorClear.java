@@ -10,6 +10,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
@@ -131,12 +134,12 @@ public class LeitorClear {
 	                stripperArea.addRegion( "lancamentoAtivo", rect );
 	                
 	                //Posição dos valores
-	                rect = new Rectangle( 325, 245+(contLanctos*10), 540, 12 );
+	                rect = new Rectangle( 327, 245+(contLanctos*10), 540, 12 );
 	                stripperArea.addRegion( "lancamentoValores", rect );
 	                stripperArea.extractRegions( document.getPage(p-1) );
 	                
 	                notaDeCorretagemLancto = new NotaCorretagemLancto();
-	                
+	               
 	                notaDeCorretagemLancto.setNegociacao( linhas[i].split(" ")[0] );
 	                notaDeCorretagemLancto.setC_V( linhas[i].split(" ")[1] );
 	                notaDeCorretagemLancto.setTipoMercado( linhas[i].split(" ")[2] );
@@ -191,6 +194,7 @@ public class LeitorClear {
 
 			document.close();
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Houve um erro ao processar um dos arquivos, por favor verifique a pasta de erros");
 			e.printStackTrace();
 			document.close();
 			throw e;

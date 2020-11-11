@@ -51,13 +51,15 @@ public class Leitor {
 	    
 	    CSVPrinter printer = new CSVPrinter(out, CSVFormat.newFormat(';')
 											    		.withQuote('"')
-											    		.withRecordSeparator("\r\n")
+											    		.withRecordSeparator(System.getProperty("line.separator"))
 											    		.withEscape('\\')
 											    		.withQuoteMode(QuoteMode.ALL)
-											    		.withHeader(HEADERS));
+											    		.withHeader(HEADERS)
+											    		);
 	    	
     	for (NotaCorretagem notaCorretagem : listaNotasCorretagem) {
     		appendNotaCorretagemToCSVFile(printer, notaCorretagem);
+    		printer.flush();
     	}
 	   
 	}
@@ -65,7 +67,7 @@ public class Leitor {
 	private static void appendNotaCorretagemToCSVFile(CSVPrinter printer, NotaCorretagem notaCorretagem) throws IOException {
 		
 		for (NotaCorretagemLancto notaCorretagemLancto : notaCorretagem.getLanctos()) {
-			
+			System.out.println(notaCorretagemLancto.getEspecificacaoTitulo());
 			printer.printRecord( notaCorretagem.getNumeroCorretagem(),
 								 notaCorretagem.getCorretora(),
 								 Formatos.formatar(notaCorretagem.getDataPregao(), Fmt.DDMMYYYY_BARRAS),

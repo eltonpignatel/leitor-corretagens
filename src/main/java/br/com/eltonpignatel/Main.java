@@ -9,7 +9,7 @@ import br.com.eltonpignatel.model.NotaCorretagem;
 
 public class Main {
  
-	public static void main(String[] args) throws IOException, URISyntaxException {
+	public static void main(String[] args) throws IOException  {
 		
 		Leitor.criaEstruturaDiretorios();
 		Leitor.processarArquivosPendentes();
@@ -17,7 +17,12 @@ public class Main {
 		
 		List <NotaCorretagem> listaNotasCorretagem = new ArrayList<NotaCorretagem>();
 		listaNotasCorretagem =  new NotaCorretagemDAO().lerTodos(NotaCorretagem.class);
-		Leitor.createCSVFileFromListaCorretagem(listaNotasCorretagem);
+		
+		try {
+			Leitor.createCSVFileFromListaCorretagem(listaNotasCorretagem);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
