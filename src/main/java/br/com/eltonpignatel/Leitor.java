@@ -23,7 +23,7 @@ public class Leitor {
 	static String diretorioBaseExecucao = Arquivos.urlExecucao();
 	static String diretorioNotas = diretorioBaseExecucao + "notas" + File.separator;
 	static String diretorioPendentes = diretorioNotas + "Pendentes" ;
-	static String diretorioClear = diretorioNotas + "Clear";
+	static String diretorioClearRico = diretorioNotas + "ClearRico";
 	static String diretorioProcessados = diretorioNotas + "Processados";
 	static String diretorioErros = diretorioNotas + "Erros";
 	static String diretorioCSV = diretorioBaseExecucao +  "out" + File.separator ;
@@ -35,7 +35,7 @@ public class Leitor {
 		File[] arquivos  = diretorioArquivos.listFiles();
 		
 		for (File arquivo : arquivos) {
-			Files.move(arquivo.toPath(), Paths.get( diretorioClear + File.separator +  arquivo.getName() ), StandardCopyOption.REPLACE_EXISTING);
+			Files.move(arquivo.toPath(), Paths.get( diretorioClearRico + File.separator +  arquivo.getName() ), StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
 	
@@ -67,7 +67,7 @@ public class Leitor {
 	private static void appendNotaCorretagemToCSVFile(CSVPrinter printer, NotaCorretagem notaCorretagem) throws IOException {
 		
 		for (NotaCorretagemLancto notaCorretagemLancto : notaCorretagem.getLanctos()) {
-			System.out.println(notaCorretagemLancto.getEspecificacaoTitulo());
+			
 			printer.printRecord( notaCorretagem.getNumeroCorretagem(),
 								 notaCorretagem.getCorretora(),
 								 Formatos.formatar(notaCorretagem.getDataPregao(), Fmt.DDMMYYYY_BARRAS),
@@ -101,7 +101,7 @@ public class Leitor {
 		Arquivos.criaDiretorioSeNaoExiste(diretorioCSV);
 		Arquivos.criaDiretorioSeNaoExiste(diretorioNotas);
 		Arquivos.criaDiretorioSeNaoExiste(diretorioPendentes);
-		Arquivos.criaDiretorioSeNaoExiste(diretorioClear);
+		Arquivos.criaDiretorioSeNaoExiste(diretorioClearRico);
 		Arquivos.criaDiretorioSeNaoExiste(diretorioProcessados);
 		Arquivos.criaDiretorioSeNaoExiste(diretorioErros);
 		

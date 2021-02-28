@@ -20,11 +20,11 @@ import br.com.eltonpignatel.dao.NotaCorretagemDAO;
 import br.com.eltonpignatel.model.NotaCorretagem;
 import br.com.eltonpignatel.model.NotaCorretagemLancto;
 
-public class LeitorClear {
+public class LeitorClearRico {
 	
 	public void ler() {
 		
-		File diretorioArquivos = new File(Leitor.diretorioClear);
+		File diretorioArquivos = new File(Leitor.diretorioClearRico);
 		File[] arquivos  = diretorioArquivos.listFiles();
 		
 		for (File arquivo : arquivos) {
@@ -90,8 +90,16 @@ public class LeitorClear {
 	            
 	            notaDeCorretagem = new NotaCorretagem();
 	            notaDeCorretagem.setCorretora(linhas[3]);
-	            notaDeCorretagem.setDataPregao(new SimpleDateFormat("dd/MM/yyyy").parse(linhas[2].split(" ")[2]));
-	            notaDeCorretagem.setNumeroCorretagem(Integer.parseInt(linhas[2].split(" ")[0]));
+
+	            if (linhas[2].split(" ").length == 3)  {
+	            	notaDeCorretagem.setDataPregao(new SimpleDateFormat("dd/MM/yyyy").parse(linhas[2].split(" ")[2]));
+		            notaDeCorretagem.setNumeroCorretagem(Integer.parseInt(linhas[2].split(" ")[0]));
+	            } else {
+	            	notaDeCorretagem.setDataPregao(new SimpleDateFormat("dd/MM/yyyy").parse(linhas[2].split(" ")[1]));
+		            notaDeCorretagem.setNumeroCorretagem(0);
+	            }
+		            
+	           
 	                            
 	            //Identifica e categoriza as linhas
 	            for (int i = 0; i < linhas.length; i++) {
@@ -134,7 +142,7 @@ public class LeitorClear {
 	                stripperArea.addRegion( "lancamentoAtivo", rect );
 	                
 	                //Posição dos valores
-	                rect = new Rectangle( 327, 245+(contLanctos*10), 540, 12 );
+	                rect = new Rectangle( 335, 245+(contLanctos*10), 540, 12 );
 	                stripperArea.addRegion( "lancamentoValores", rect );
 	                stripperArea.extractRegions( document.getPage(p-1) );
 	                
@@ -148,7 +156,12 @@ public class LeitorClear {
 	                notaDeCorretagemLancto.setPrecoAjuste( Double.parseDouble(stripperArea.getTextForRegion( "lancamentoValores" ).replace(System.lineSeparator(), "").split(" ")[1].replace(".", "").replace(",", ".")) );
 	                notaDeCorretagemLancto.setValorOperacaoAjuste( Double.parseDouble( stripperArea.getTextForRegion( "lancamentoValores" ).replace(System.lineSeparator(), "").split(" ")[2].replace(".", "").replace(",", ".") ) );
 	                notaDeCorretagemLancto.setD_C( stripperArea.getTextForRegion( "lancamentoValores" ).replace(System.lineSeparator(), "").split(" ")[3] );
-	                notaDeCorretagemLancto.setFolha(Integer.parseInt(linhas[2].split(" ")[1]));
+	                if (linhas[2].split(" ").length == 3) {
+	                	notaDeCorretagemLancto.setFolha(Integer.parseInt(linhas[2].split(" ")[1]));
+	                } else {
+	                	notaDeCorretagemLancto.setFolha(Integer.parseInt(linhas[2].split(" ")[0]));
+	                }
+	                
 	                notaDeCorretagemLanctoList.add(notaDeCorretagemLancto);
 	                
 	            }
