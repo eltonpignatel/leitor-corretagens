@@ -7,7 +7,7 @@ Leitor de Corretagens
 [![Coverage Status](https://img.shields.io/github/issues/eltonpignatel/leitor-corretagens)](https://img.shields.io/github/issues/eltonpignatel/leitor-corretagens)  
 
 
-### 🚧  Projeto em construção...  🚧    ,
+### 🚧  Projeto em construção...  🚧  
 
 O projeto se encontra em construção, mas já pode ser utilizado por sua conta em risco caso  desejar.   
 
